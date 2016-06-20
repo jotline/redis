@@ -235,6 +235,7 @@ struct redisCommand redisCommandTable[] = {
 
 
 	{"saverdbtofile",saverdbtofileCommand,2,"a",0,NULL,0,0,0,0,0},
+	{"readrdbfromfile",readrdbfromfileCommand,2,"aw",0,NULL,0,0,0,0,0},
 
 
     {"bgrewriteaof",bgrewriteaofCommand,1,"a",0,NULL,0,0,0,0,0},
@@ -1834,6 +1835,22 @@ void resetServerStats(void) {
     server.stat_net_output_bytes = 0;
     server.aof_delayed_fsync = 0;
 }
+
+//todo test
+void initDB(void){
+	 server.db = zmalloc(sizeof(redisDb)*server.dbnum);
+	  for (int j = 0; j < server.dbnum; j++) {
+	        server.db[j].dict = dictCreate(&dbDictType,NULL);
+	        server.db[j].expires = dictCreate(&keyptrDictType,NULL);
+	        server.db[j].blocking_keys = dictCreate(&keylistDictType,NULL);
+	        server.db[j].ready_keys = dictCreate(&setDictType,NULL);
+	        server.db[j].watched_keys = dictCreate(&keylistDictType,NULL);
+	        server.db[j].eviction_pool = evictionPoolAlloc();
+	        server.db[j].id = j;
+	        server.db[j].avg_ttl = 0;
+	    }
+}
+
 
 void initServer(void) {
     int j;

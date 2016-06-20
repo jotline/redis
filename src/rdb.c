@@ -1741,3 +1741,14 @@ void saverdbtofileCommand(client *c) {
         addReply(c,shared.err);
     }
 }
+
+void readrdbfromfileCommand(client *c){
+	initDB();
+	rdbLoad(c->argv[1]->ptr);
+	c->db=&server.db[0];
+	rdbSaveBackground(server.rdb_filename);
+	addReplyStatus(c,"read success!now in the db 0!");
+}
+
+
+
