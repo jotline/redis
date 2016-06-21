@@ -1747,6 +1747,7 @@ void readrdbfromfileCommand(client *c){
 	rdbLoad(c->argv[1]->ptr);
 	c->db=&server.db[0];
 	rdbSaveBackground(server.rdb_filename);
+	bgrewriteaofCommandwithoutreply();
 	addReplyStatus(c,"read success!now in the db 0!");
 }
 

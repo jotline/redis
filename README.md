@@ -17,3 +17,7 @@ add a func(readrdbfromfile) in server.h
 	rdbSaveBackground(server.rdb_filename);//做一次bgsave  
 	addReplyStatus(c,"read success!now in the db 0!");   
 ```	
+
+##2016-6-21
+###add bgrewriteaofCommand in readrdbfromfile  
+because when we run readrdbfromfile,the file appendonly.aof is not change until we run bgrewriteaof

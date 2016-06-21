@@ -1838,7 +1838,8 @@ void resetServerStats(void) {
 
 //todo test
 void initDB(void){
-	 server.db = zmalloc(sizeof(redisDb)*server.dbnum);
+	zfree(server.db);//free 会报warn‘free’ is deprecated (declared at /usr/include/stdlib.h:483) [-Wdeprecated-declarations]
+	server.db = zmalloc(sizeof(redisDb)*server.dbnum);
 	  for (int j = 0; j < server.dbnum; j++) {
 	        server.db[j].dict = dictCreate(&dbDictType,NULL);
 	        server.db[j].expires = dictCreate(&keyptrDictType,NULL);

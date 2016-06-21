@@ -1323,6 +1323,19 @@ void bgrewriteaofCommand(client *c) {
         addReply(c,shared.err);
     }
 }
+//just for readrdbfromfileCommand 减少一行reply。
+int  bgrewriteaofCommandwithoutreply() {
+    if (server.aof_child_pid != -1) {
+        return 2;
+    } else if (server.rdb_child_pid != -1) {
+        server.aof_rewrite_scheduled = 1;
+    } else if (rewriteAppendOnlyFileBackground() == C_OK) {
+        return 1;
+    } else {
+        return 0;
+    }
+    return 0;
+}
 
 void aofRemoveTempFile(pid_t childpid) {
     char tmpfile[256];
