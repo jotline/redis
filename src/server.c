@@ -1918,6 +1918,7 @@ void initServer(void) {
         server.db[j].eviction_pool = evictionPoolAlloc();
         server.db[j].id = j;
         server.db[j].avg_ttl = 0;
+        server.db[j].stk=createEmptyStack();
     }
     server.pubsub_channels = dictCreate(&keylistDictType,NULL);
     server.pubsub_patterns = listCreate();

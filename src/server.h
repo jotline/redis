@@ -34,6 +34,7 @@
 #include "config.h"
 #include "solarisfixes.h"
 
+#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -506,6 +507,7 @@ typedef struct redisDb {
     struct evictionPoolEntry *eviction_pool;    /* Eviction pool of keys */
     int id;                     /* Database ID */
     long long avg_ttl;          /* Average TTL, just for stats */
+    PLinkStack stk;
 } redisDb;
 
 /* Client MULTI/EXEC state */
@@ -1644,6 +1646,7 @@ void latencyCommand(client *c);
 
 void readrdbfromfileCommand(client *c);
 
+
 #if defined(__GNUC__)
 void *calloc(size_t count, size_t size) __attribute__ ((deprecated));
 void free(void *ptr) __attribute__ ((deprecated));
@@ -1664,6 +1667,7 @@ void disableWatchdog(void);
 void watchdogScheduleSignal(int period);
 void serverLogHexDump(int level, char *descr, void *value, size_t len);
 int memtest_preserving_test(unsigned long *m, size_t bytes, int passes);
+
 
 #define redisDebug(fmt, ...) \
     printf("DEBUG %s:%d > " fmt "\n", __FILE__, __LINE__, __VA_ARGS__)

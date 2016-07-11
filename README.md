@@ -21,3 +21,8 @@ add a func(readrdbfromfile) in server.h
 ##2016-6-21
 ###add bgrewriteaofCommand in readrdbfromfile  
 because when we run readrdbfromfile,the file appendonly.aof is not change until we run bgrewriteaof
+
+
+##2016-7-11  
+###在redisDb中新增了一个域，stack  
+这个域里面放的就是回溯队列，具体的实现就在stack.c和stack.h中，注意要在Makefile中增加stack.o要不然不会去编译。  
